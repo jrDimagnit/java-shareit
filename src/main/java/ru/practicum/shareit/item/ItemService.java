@@ -85,11 +85,11 @@ public class ItemService {
         List<Comment> comments = commentRepository.findAllByItemId(item.getId());
         if (userId.equals(item.getOwnerId())) {
             LastNextBookingDto nextBooking = bookingMapper.fromBookingShort(bookingRepository
-                    .findBookingByItem_IdAndStatusAndEndDateAfter(itemId, BookingStatus.APPROVED
-                            , LocalDateTime.now(), Sort.by(DESC, "startDate")));
+                    .findBookingByItem_IdAndStatusAndEndDateAfter(itemId, BookingStatus.APPROVED,
+                            LocalDateTime.now(), Sort.by(DESC, "startDate")));
             LastNextBookingDto lastBooking = bookingMapper.fromBookingShort(bookingRepository
-                    .findBookingByItem_IdAndStatusAndEndDateBefore(itemId, BookingStatus.APPROVED
-                            , LocalDateTime.now(), Sort.by(ASC, "startDate")));
+                    .findBookingByItem_IdAndStatusAndEndDateBefore(itemId, BookingStatus.APPROVED,
+                            LocalDateTime.now(), Sort.by(ASC, "startDate")));
             return itemMapper.fromItemWithComments(item, comments.stream().map(commentMapper::fromComment)
                     .collect(Collectors.toList()), lastBooking, nextBooking);
         } else {

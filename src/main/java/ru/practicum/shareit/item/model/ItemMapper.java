@@ -20,9 +20,9 @@ public class ItemMapper {
         return new ItemDto(item.getId(), item.getName(), item.getDescription(), item.getAvailable());
     }
 
-    public ItemWithCommentsDto fromItemWithComments(Item item, List<CommentResponseDto> comments
-            , LastNextBookingDto lastBooking, LastNextBookingDto nextBooking) {
-        return new ItemWithCommentsDto(item.getId(), item.getName()
-                , item.getDescription(), item.getAvailable(), lastBooking, nextBooking, comments);
+    public ItemWithCommentsDto fromItemWithComments(Item item, List<CommentResponseDto> comments,
+                                                    LastNextBookingDto lastBooking, LastNextBookingDto nextBooking) {
+        return new ItemWithCommentsDto(item.getId(), item.getName(),
+                item.getDescription(), item.getAvailable(), lastBooking, nextBooking, comments);
     }
 }

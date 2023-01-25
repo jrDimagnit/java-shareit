@@ -110,8 +110,8 @@ public class BookingService {
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден!"));
         BookingStatus statusCheck = checkStatus(status);
         if (statusCheck.equals(BookingStatus.PAST)) {
-            return bookingRepository.findByOwnerIdAndStatusIsBefore(owner.getId(), BookingStatus.APPROVED
-                            , LocalDateTime.now()).stream()
+            return bookingRepository.findByOwnerIdAndStatusIsBefore(owner.getId(), BookingStatus.APPROVED,
+                            LocalDateTime.now()).stream()
                     .map(bookingMapper::fromBooking)
                     .collect(Collectors.toList());
         }

@@ -14,9 +14,9 @@ public class BookingMapper {
     }
 
     public BookingResponseDto fromBooking(Booking booking) {
-        BookingResponseDto bookingResponseDto = new BookingResponseDto(booking.getId(), booking.getStartDate(), booking.getEndDate()
-                , booking.getStatus(), new BookingItemDto(booking.getItem().getId(), booking.getItem().getName())
-                , new BookerDto(booking.getBooker().getId()));
+        BookingResponseDto bookingResponseDto = new BookingResponseDto(booking.getId(), booking.getStartDate(),
+                booking.getEndDate(), booking.getStatus(), new BookingItemDto(booking.getItem().getId(),
+                booking.getItem().getName()), new BookerDto(booking.getBooker().getId()));
         return bookingResponseDto;
     }
 
