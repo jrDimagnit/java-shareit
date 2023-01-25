@@ -1,6 +1,8 @@
 package ru.practicum.shareit.item;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -32,18 +34,18 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Slf4j
 @Transactional(readOnly = true)
 public class ItemService {
 
-    private final ItemRepository itemRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-    private final ItemMapper itemMapper;
-    private final CommentMapper commentMapper;
-    private final BookingRepository bookingRepository;
-
-    private final BookingMapper bookingMapper;
+    ItemRepository itemRepository;
+    UserRepository userRepository;
+    CommentRepository commentRepository;
+    ItemMapper itemMapper;
+    CommentMapper commentMapper;
+    BookingRepository bookingRepository;
+    BookingMapper bookingMapper;
 
     @Transactional
     public ItemDto createItem(ItemDto itemDto, Long userId) {

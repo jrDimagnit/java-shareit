@@ -1,6 +1,10 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
@@ -8,36 +12,24 @@ import javax.persistence.*;
 /**
  * TODO Sprint add-controllers.
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "items", schema = "public")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
     @Column(name = "name", nullable = false)
-    private String name;
+    String name;
     @Column(name = "description", nullable = false)
-    private String description;
+    String description;
     @Column(name = "available", nullable = false)
-    private Boolean available;
+    Boolean available;
     @Column(name = "owner_id")
-    private Long ownerId;
+    Long ownerId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
-        return id != null && id.equals(((Item) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

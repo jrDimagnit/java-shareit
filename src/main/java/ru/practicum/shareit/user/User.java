@@ -1,6 +1,10 @@
 package ru.practicum.shareit.user;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.Create;
 import ru.practicum.shareit.Update;
 
@@ -11,36 +15,23 @@ import javax.validation.constraints.NotBlank;
 /**
  * TODO Sprint add-controllers.
  */
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "users", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
     @NotBlank(groups = Create.class)
     @Column(name = "name", nullable = false)
-    private String name;
+    String name;
     @NotBlank(groups = Create.class)
     @Email(groups = {Create.class, Update.class})
     @Column(name = "email", unique = true, nullable = false)
-    private String email;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        return id != null && id.equals(((User) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    String email;
 
 }

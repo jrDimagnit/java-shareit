@@ -1,6 +1,8 @@
 package ru.practicum.shareit.booking;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookingService {
-    private final BookingRepository bookingRepository;
-    private final UserRepository userRepository;
-    private final ItemRepository itemRepository;
-    private final BookingMapper bookingMapper;
+    BookingRepository bookingRepository;
+    UserRepository userRepository;
+    ItemRepository itemRepository;
+    BookingMapper bookingMapper;
 
     @Transactional
     public BookingResponseDto createBooking(BookingDto bookingDto, Long userId) {

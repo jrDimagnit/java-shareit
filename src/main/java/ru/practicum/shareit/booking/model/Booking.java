@@ -1,9 +1,10 @@
 package ru.practicum.shareit.booking.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
 
@@ -13,8 +14,8 @@ import java.time.LocalDateTime;
 /**
  * TODO Sprint add-bookings.
  */
-@Getter
-@Setter
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,29 +23,18 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startDate;
+    LocalDateTime startDate;
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime endDate;
+    LocalDateTime endDate;
     @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    BookingStatus status;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User booker;
+    User booker;
     @ManyToOne
     @JoinColumn(name = "item_id")
-    private Item item;
+    Item item;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Booking)) return false;
-        return id != null && id.equals(((Booking) o).getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
