@@ -5,24 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.shareit.Create;
+import ru.practicum.shareit.booking.dto.LastNextBookingDto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemDto {
+public class ItemWithCommentsDto {
     Long id;
-    @NotBlank(groups = Create.class)
     String name;
-    @NotBlank(groups = Create.class)
     String description;
-    @NotNull(groups = Create.class)
     Boolean available;
+    LastNextBookingDto lastBooking;
+    LastNextBookingDto nextBooking;
+    List<CommentResponseDto> comments = new ArrayList<>();
 }
