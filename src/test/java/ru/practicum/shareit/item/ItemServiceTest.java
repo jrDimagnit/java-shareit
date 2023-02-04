@@ -88,7 +88,7 @@ public class ItemServiceTest {
     public void getAllItemByUserIdTest() {
         user = new User();
         user.setName("test");
-        user.setEmail("test4@test.ru");
+        user.setEmail("test40@test.ru");
         item = new ItemDto();
         item.setAvailable(true);
         item.setName("name");
@@ -105,7 +105,7 @@ public class ItemServiceTest {
     public void searchTest() {
         user = new User();
         user.setName("test");
-        user.setEmail("test5@test.ru");
+        user.setEmail("test50@test.ru");
         item = new ItemDto();
         item.setAvailable(true);
         item.setName("name");

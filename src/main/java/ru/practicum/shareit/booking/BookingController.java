@@ -20,6 +20,9 @@ import java.util.List;
 public class BookingController {
     private final BookingService bookingService;
     private final String owner = "X-Sharer-User-ID";
+    private final String params = "ALL";
+    private final String fromParams = "0";
+    private final String sizeParams = "10";
 
     @PostMapping
     public BookingResponseDto createBooking(@RequestHeader(owner) Long userId,
@@ -43,9 +46,9 @@ public class BookingController {
 
     @GetMapping()
     public List<BookingResponseDto> getByBookerIdAndState(@RequestHeader(owner) Long userId,
-                                                          @RequestParam(defaultValue = "ALL") String state,
-                                                          @RequestParam(defaultValue = "0") Integer from,
-                                                          @RequestParam(defaultValue = "10") Integer size) {
+                                                          @RequestParam(defaultValue = params) String state,
+                                                          @RequestParam(defaultValue = fromParams) Integer from,
+                                                          @RequestParam(defaultValue = sizeParams) Integer size) {
         if (from < 0 || size <= 0) {
             throw new NotOwnerException("Неверные параметры сортировки");
         }
@@ -54,9 +57,9 @@ public class BookingController {
 
     @GetMapping("/owner")
     public List<BookingResponseDto> getAllOwnerId(@RequestHeader(owner) Long userId,
-                                                  @RequestParam(defaultValue = "ALL") String state,
-                                                  @RequestParam(defaultValue = "0") Integer from,
-                                                  @RequestParam(defaultValue = "10") Integer size) {
+                                                  @RequestParam(defaultValue = params) String state,
+                                                  @RequestParam(defaultValue = fromParams) Integer from,
+                                                  @RequestParam(defaultValue = sizeParams) Integer size) {
         if (from < 0 || size <= 0) {
             throw new NotOwnerException("Неверные параметры сортировки");
         }

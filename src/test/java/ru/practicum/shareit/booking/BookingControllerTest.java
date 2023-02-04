@@ -93,7 +93,25 @@ public class BookingControllerTest {
     }
 
     @Test
+    public void getByBookerIdFailTest() throws Exception {
+        mockMvc.perform(get("/bookings?from=-1")
+                        .header("X-Sharer-User-Id", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void getAllOwnerIdTest() throws Exception {
+        List<BookingResponseDto> bookings = List.of(bookingResponseDto);
+        when(bookingService.getAllOwnerId(anyLong(), any(), any())).thenReturn(bookings);
+        mockMvc.perform(get("/bookings/owner")
+                        .header("X-Sharer-User-Id", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAllOwnerIdFailTest() throws Exception {
         List<BookingResponseDto> bookings = List.of(bookingResponseDto);
         when(bookingService.getAllOwnerId(anyLong(), any(), any())).thenReturn(bookings);
         mockMvc.perform(get("/bookings/owner?size=-2")

@@ -17,6 +17,8 @@ import java.util.List;
 public class ItemRequestController {
     private final ItemRequestService itemRequestService;
     private final String owner = "X-Sharer-User-ID";
+    private final String fromParams = "0";
+    private final String sizeParams = "10";
 
     @PostMapping
     public ItemRequestDto createRequest(@RequestHeader(owner) Long userId,
@@ -26,8 +28,8 @@ public class ItemRequestController {
 
     @GetMapping
     public List<ItemRequestDto> getByUser(@RequestHeader(owner) Long userId,
-                                          @RequestParam(defaultValue = "0") Integer from,
-                                          @RequestParam(defaultValue = "10") Integer size) {
+                                          @RequestParam(defaultValue = fromParams) Integer from,
+                                          @RequestParam(defaultValue = sizeParams) Integer size) {
         if (from < 0 || size <= 0) {
             throw new NotOwnerException("Неверные параметры сортировки");
         }
@@ -41,8 +43,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public List<ItemRequestDto> getAll(@RequestHeader(owner) Long userId,
-                                       @RequestParam(defaultValue = "0") Integer from,
-                                       @RequestParam(defaultValue = "10") Integer size) {
+                                       @RequestParam(defaultValue = fromParams) Integer from,
+                                       @RequestParam(defaultValue = sizeParams) Integer size) {
         if (from < 0 || size < 0) {
             throw new NotOwnerException("Неверные параметры сортировки");
         }

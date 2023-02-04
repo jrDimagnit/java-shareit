@@ -93,4 +93,26 @@ public class RequestControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id").value(items.get(0).getId()));
     }
+
+    @Test
+    public void getRequestByUserIdFailTest() throws Exception {
+        List<ItemRequestDto> items = List.of(itemRequestDto);
+        when(itemRequestService.getByUser(anyLong(), any()))
+                .thenReturn(items);
+        mockMvc.perform(get("/requests?size=-2", id)
+                        .header("X-Sharer-User-Id", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getAllFailTest() throws Exception {
+        List<ItemRequestDto> items = List.of(itemRequestDto);
+        when(itemRequestService.getAll(anyLong(), any()))
+                .thenReturn(items);
+        mockMvc.perform(get("/requests/all?size=-2", id)
+                        .header("X-Sharer-User-Id", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
