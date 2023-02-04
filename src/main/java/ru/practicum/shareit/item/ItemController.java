@@ -31,7 +31,7 @@ public class ItemController {
     public ItemDto createItem(@RequestHeader(owner) Long userId,
                               @RequestBody @Validated(Create.class) ItemDto itemDto) {
         log.debug("Создание предмета {} от ползователя с id {}", itemDto, userId);
-        return itemService.createItem(itemDto, userId);
+        return itemService.createItem(itemDto, userId, itemDto.getRequestId());
     }
 
     @PatchMapping("/{itemId}")

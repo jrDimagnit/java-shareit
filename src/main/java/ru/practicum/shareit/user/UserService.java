@@ -26,7 +26,7 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
-        userRepository.save(user);
+        user = userRepository.save(user);
         log.debug("Пользователь {} создан", user);
         return user;
     }

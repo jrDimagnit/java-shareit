@@ -10,14 +10,15 @@ import java.util.List;
 
 @Service
 public class ItemMapper {
-    public Item toItem(ItemDto itemDto, Long ownerId) {
+    public Item toItem(ItemDto itemDto, Long ownerId, Long requestId) {
         Item createItem = new Item(itemDto.getId(), itemDto.getName(), itemDto.getDescription(),
-                itemDto.getAvailable(), ownerId);
+                itemDto.getAvailable(), ownerId, requestId);
         return createItem;
     }
 
     public ItemDto fromItem(Item item) {
-        return new ItemDto(item.getId(), item.getName(), item.getDescription(), item.getAvailable());
+        return new ItemDto(item.getId(), item.getName(), item.getDescription(), item.getAvailable(),
+                item.getRequestId());
     }
 
     public ItemWithCommentsDto fromItemWithComments(Item item, List<CommentResponseDto> comments,

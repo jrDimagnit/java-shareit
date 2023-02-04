@@ -1,10 +1,12 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingResponseDto;
 import ru.practicum.shareit.booking.model.BookingStatus;
+import ru.practicum.shareit.error.NotOwnerException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -41,13 +43,23 @@ public class BookingController {
 
     @GetMapping()
     public List<BookingResponseDto> getByBookerIdAndState(@RequestHeader(owner) Long userId,
-                                                          @RequestParam(defaultValue = "ALL") String state) {
-        return bookingService.getByBookerIdAndState(userId, state);
+                                                          @RequestParam(defaultValue = "ALL") String state,
+                                                          @RequestParam(defaultValue = "0") Integer from,
+                                                          @RequestParam(defaultValue = "10") Integer size) {
+        if (from < 0 || size <= 0) {
+            throw new NotOwnerException("Неверные параметры сортировки");
+        }
+        return bookingService.getByBookerIdAndState(userId, state, PageRequest.of(from / size, size));
     }
 
     @GetMapping("/owner")
     public List<BookingResponseDto> getAllOwnerId(@RequestHeader(owner) Long userId,
-                                                  @RequestParam(defaultValue = "ALL") String state) {
-        return bookingService.getAllOwnerId(userId, state);
+                                                  @RequestParam(defaultValue = "ALL") String state,
+                                                  @RequestParam(defaultValue = "0") Integer from,
+                                                  @RequestParam(defaultValue = "10") Integer size) {
+        if (from < 0 || size <= 0) {
+            throw new NotOwnerException("Неверные параметры сортировки");
+        }
+        return bookingService.getAllOwnerId(userId, state, PageRequest.of(from / size, size));
     }
 }

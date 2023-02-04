@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.request.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,30 +7,27 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-
+import java.time.LocalDateTime;
 
 /**
- * TODO Sprint add-controllers.
+ * TODO Sprint add-item-requests.
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "items", schema = "public")
-public class Item {
+@Table(name = "requests", schema = "public")
+public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
-    @Column(name = "name", nullable = false)
-    String name;
     @Column(name = "description", nullable = false)
     String description;
-    @Column(name = "available", nullable = false)
-    Boolean available;
-    @Column(name = "owner_id")
-    Long ownerId;
-    @Column(name = "request_id")
-    Long requestId;
+    @Column(name = "requestor")
+    Long requestor;
+    @Column(name = "created")
+    LocalDateTime created;
+
 }

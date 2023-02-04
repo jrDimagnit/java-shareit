@@ -48,10 +48,10 @@ public class ItemService {
     BookingMapper bookingMapper;
 
     @Transactional
-    public ItemDto createItem(ItemDto itemDto, Long userId) {
+    public ItemDto createItem(ItemDto itemDto, Long userId, Long requestId) {
         User owner = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден!"));
-        Item item = itemRepository.save(itemMapper.toItem(itemDto, owner.getId()));
+        Item item = itemRepository.save(itemMapper.toItem(itemDto, owner.getId(), requestId));
         log.debug("Предмет сохранен {}", itemDto);
         return itemMapper.fromItem(item);
     }
@@ -120,7 +120,8 @@ public class ItemService {
 
     @Transactional
     public CommentResponseDto addComment(Long userId, Long itemId, CommentDto commentDto) {
-        Boolean hasBooked = bookingRepository.existsBookingByItem_IdAndBooker_IdAndStatusAndEndDateBefore(itemId, userId, BookingStatus.APPROVED, LocalDateTime.now());
+        Boolean hasBooked = bookingRepository.existsBookingByItem_IdAndBooker_IdAndStatusAndEndDateBefore(itemId,
+                userId, BookingStatus.APPROVED, LocalDateTime.now());
         if (!hasBooked || hasBooked == null) {
             throw new NotOwnerException("Comment не может быть создан");
         }
