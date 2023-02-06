@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +86,7 @@ public class BookingService {
         throw new NotFoundException("Пользователь не найден!");
     }
 
-    public List<BookingResponseDto> getByBookerIdAndState(Long userId, String status) {
+    public List<BookingResponseDto> getByBookerIdAndState(Long userId, String status, PageRequest pageRequest) {
         User owner = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден!"));
         BookingStatus statusCheck = checkStatus(status);
@@ -93,37 +94,38 @@ public class BookingService {
             return bookingRepository.findByBooker_IdAndStatusAndEndDateBefore(owner.getId(),
                             BookingStatus.APPROVED,
                             LocalDateTime.now(),
-                            Sort.by(Sort.Direction.DESC, "endDate")).stream()
+                            Sort.by(Sort.Direction.DESC, "endDate"), pageRequest).stream()
                     .map(bookingMapper::fromBooking)
                     .collect(Collectors.toList());
         }
         if (!statusCheck.equals(BookingStatus.ALL)) {
             return bookingRepository.findByBookerIdAndStatus(owner.getId(), statusCheck, Sort.by(Sort
-                            .Direction.DESC, "endDate")).stream()
+                            .Direction.DESC, "endDate"), pageRequest).stream()
                     .map(bookingMapper::fromBooking)
                     .collect(Collectors.toList());
         }
-        return bookingRepository.findByBookerId(owner.getId(), Sort.by(Sort.Direction.DESC, "endDate")).stream()
+        return bookingRepository.findByBookerId(owner.getId(), Sort.by(Sort.Direction.DESC, "endDate"),
+                        pageRequest).stream()
                 .map(bookingMapper::fromBooking)
                 .collect(Collectors.toList());
     }
 
-    public List<BookingResponseDto> getAllOwnerId(Long userId, String status) {
+    public List<BookingResponseDto> getAllOwnerId(Long userId, String status, PageRequest pageRequest) {
         User owner = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден!"));
         BookingStatus statusCheck = checkStatus(status);
         if (statusCheck.equals(BookingStatus.PAST)) {
             return bookingRepository.findByOwnerIdAndStatusIsBefore(owner.getId(), BookingStatus.APPROVED,
-                            LocalDateTime.now()).stream()
+                            LocalDateTime.now(), pageRequest).stream()
                     .map(bookingMapper::fromBooking)
                     .collect(Collectors.toList());
         }
         if (!statusCheck.equals(BookingStatus.ALL)) {
-            return bookingRepository.findByOwnerIdAndStatus(owner.getId(), statusCheck).stream()
+            return bookingRepository.findByOwnerIdAndStatus(owner.getId(), statusCheck, pageRequest).stream()
                     .map(bookingMapper::fromBooking)
                     .collect(Collectors.toList());
         }
-        return bookingRepository.findByOwnerId(owner.getId()).stream()
+        return bookingRepository.findByOwnerId(owner.getId(), pageRequest).stream()
                 .map(bookingMapper::fromBooking)
                 .collect(Collectors.toList());
     }
