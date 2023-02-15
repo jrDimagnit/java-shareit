@@ -3,7 +3,6 @@ package ru.practicum.shareit.item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -14,7 +13,6 @@ import javax.validation.constraints.PositiveOrZero;
 @Controller
 @RequestMapping(path = "/items")
 @RequiredArgsConstructor
-@Validated
 public class ItemController {
     private static final String USER_ID = "X-Sharer-User-Id";
     private final ItemClient itemClient;
